@@ -13,8 +13,6 @@ export default function Home() {
     api.get(`${userId}`).then((response) => setTodos(response.data));
   }, []);
 
-  console.log(todos);
-
   function addTodo(todo: Todo) {
     setTodos((prev) => [...prev, todo]);
   }
@@ -28,8 +26,8 @@ export default function Home() {
   }
 
   return (
-    <div className="flex items-start justify-center min-h-screen p-4">
-      <div className="w-full max-w-screen-md">
+    <div className="flex items-start justify-center min-h-screen bg-[#f9fafb] p-4">
+      <div className="flex flex-col  w-full gap-8 max-w-screen-md">
         <Header />
         <TodoForm onAdd={addTodo} />
         <TodoList todos={todos} onUpdate={updateTodo} onDelete={deleteTodo} />
