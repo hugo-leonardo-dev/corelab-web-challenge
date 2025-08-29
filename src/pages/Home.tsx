@@ -6,10 +6,13 @@ import type { Todo } from "../types/todo";
 
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([]);
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
-    api.get<Todo[]>("/").then((res) => setTodos(res.data));
+    api.get(`${userId}`).then((response) => setTodos(response.data));
   }, []);
+
+  console.log(todos);
 
   function addTodo(todo: Todo) {
     setTodos((prev) => [...prev, todo]);
