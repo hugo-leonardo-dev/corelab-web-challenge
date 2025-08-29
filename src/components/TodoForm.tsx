@@ -22,7 +22,7 @@ export default function TodoForm({ onAdd }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2">
+    <form onSubmit={handleSubmit} className="flex gap-2 p-4">
       <input
         value={title}
         onChange={(e) => setTitle(e.target.value)}

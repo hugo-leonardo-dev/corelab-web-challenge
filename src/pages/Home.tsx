@@ -3,6 +3,7 @@ import TodoForm from "../components/TodoForm";
 import TodoList from "../components/TodoList";
 import api from "../services/api";
 import type { Todo } from "../types/todo";
+import Header from "../components/Header";
 
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -27,10 +28,12 @@ export default function Home() {
   }
 
   return (
-    <div className="max-w-md mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">My Todos</h1>
-      <TodoForm onAdd={addTodo} />
-      <TodoList todos={todos} onUpdate={updateTodo} onDelete={deleteTodo} />
+    <div className="flex items-start justify-center min-h-screen p-4">
+      <div className="w-full max-w-screen-md">
+        <Header />
+        <TodoForm onAdd={addTodo} />
+        <TodoList todos={todos} onUpdate={updateTodo} onDelete={deleteTodo} />
+      </div>
     </div>
   );
 }
