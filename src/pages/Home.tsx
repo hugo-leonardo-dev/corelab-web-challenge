@@ -1,36 +1,51 @@
-import { useEffect, useState } from "react";
 import TodoForm from "../components/TodoForm";
 import TodoList from "../components/TodoList";
-import api from "../services/api";
-import type { Todo } from "../types/todo";
 import Header from "../components/Header";
+import { useTodos } from "../hooks/useTodos";
+import type { Todo } from "../types/todo";
 
 export default function Home() {
-  const [todos, setTodos] = useState<Todo[]>([]);
-  const userId = localStorage.getItem("userId");
+  const { todos, isLoading, error, createTodo, updateTodo, deleteTodo } =
+    useTodos();
 
-  useEffect(() => {
-    api.get(`${userId}`).then((response) => setTodos(response.data));
-  }, []);
+  const handleAddTodo = (todo: Todo) => {
+    createTodo(todo);
+  };
 
-  function addTodo(todo: Todo) {
-    setTodos((prev) => [...prev, todo]);
+  const handleUpdateTodo = (todo: Todo) => {
+    updateTodo(todo);
+  };
+
+  const handleDeleteTodo = (id: string) => {
+    deleteTodo(id);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-lg">Loading...</div>
+      </div>
+    );
   }
 
-  function updateTodo(updated: Todo) {
-    setTodos((prev) => prev.map((t) => (t.id === updated.id ? updated : t)));
-  }
-
-  function deleteTodo(id: string) {
-    setTodos((prev) => prev.filter((t) => t.id !== id));
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-red-500">Error loading todos: {error.message}</div>
+      </div>
+    );
   }
 
   return (
     <div className="flex items-start justify-center min-h-screen bg-[#f9fafb] p-4">
-      <div className="flex flex-col  w-full gap-8 max-w-screen-md">
+      <div className="flex flex-col w-full gap-8 max-w-screen-md">
         <Header />
-        <TodoForm onAdd={addTodo} />
-        <TodoList todos={todos} onUpdate={updateTodo} onDelete={deleteTodo} />
+        <TodoForm onAdd={handleAddTodo} />
+        <TodoList
+          todos={todos}
+          onUpdate={handleUpdateTodo}
+          onDelete={handleDeleteTodo}
+        />
       </div>
     </div>
   );

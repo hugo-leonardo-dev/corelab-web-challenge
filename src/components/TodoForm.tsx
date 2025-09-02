@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import api from "../services/api";
 import type { Todo } from "../types/todo";
-import { Palette, Star } from "lucide-react";
+import { Star } from "lucide-react";
+import ColorPicker from "./ColorPicker";
 
 interface Props {
   onAdd: (todo: Todo) => void;
@@ -10,7 +11,7 @@ interface Props {
 
 interface FormData {
   title: string;
-  content: string;
+  description: string;
   color: string;
   isFavorite?: boolean;
 }
@@ -19,11 +20,11 @@ export default function TodoForm({ onAdd }: Props) {
   const [expanded, setExpanded] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const { register, handleSubmit, reset, setValue, watch } = useForm<FormData>({
+  const { register, handleSubmit, reset, setValue } = useForm<FormData>({
     defaultValues: {
       title: "",
-      content: "",
-      color: "#ffffff",
+      description: "",
+      color: "fffacd",
       isFavorite: false,
     },
   });
@@ -36,16 +37,8 @@ export default function TodoForm({ onAdd }: Props) {
       isFavorite,
     };
 
-    console.log(formData);
+    onAdd(formData as Todo);
 
-    // const { data: newTodo } = await api.post<Todo>("/", {
-    //   title: formData.title.trim(),
-    //   content: formData.content.trim(),
-    //   color: formData.color,
-    //   favorite: formData.isFavorite,
-    // });
-
-    // onAdd(newTodo);
     reset();
     setExpanded(false);
     setIsFavorite(false);
@@ -85,34 +78,19 @@ export default function TodoForm({ onAdd }: Props) {
           />
 
           <textarea
-            {...register("content")}
+            {...register("description")}
             placeholder="Take a note..."
             className="w-full py-1 md:py-2 h-24 bg-white rounded-md focus:shadow-[0px_0px_0px_4px_rgba(0,_0,_0,_0.2)] focus:outline-none focus:border-gray-500 text-gray-700 placeholder-gray-400 ease-in-out duration-200 text-sm md:text-base"
           />
 
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="relative">
-                <div className="relative">
-                  <input
-                    type="color"
-                    id="color-picker"
-                    {...register("color")}
-                    className="absolute inset-0 w-0 h-0 opacity-0 cursor-pointer"
-                  />
-                  <label
-                    htmlFor="color-picker"
-                    className="w-8 h-8 flex items-center justify-center rounded-full cursor-pointer hover:bg-gray-100"
-                  >
-                    <Palette className="w-5 h-5 text-gray-600" />
-                  </label>
-                </div>
-              </div>
+              <ColorPicker setValue={setValue as any} />
 
               <button
                 type="button"
                 onClick={toggleFavorite}
-                className={`w-8 h-8 flex items-center justify-center transition-colors ${
+                className={`w-8 h-8 flex items-center justify-center rounded-md hover:bg-gray-100 ${
                   isFavorite
                     ? "text-yellow-500 hover:text-yellow-600"
                     : "text-gray-400 hover:text-gray-600"

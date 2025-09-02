@@ -2,7 +2,7 @@ import axios from "axios";
 import { getUserId } from "../utils/user";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000/todos", // substitua por ENVI
+  baseURL: "http://localhost:3000", // substitua por ENV
 });
 
 api.interceptors.request.use((config) => {
