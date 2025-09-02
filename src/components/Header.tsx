@@ -1,6 +1,6 @@
 import { Search } from "lucide-react";
 
-export default function Header() {
+export default function Header({ searchQuery, setSearchQuery }: any) {
   return (
     <header className="flex justify-between items-center">
       <h1 className="text-3xl md:text-2xl text-gray-900">
@@ -15,6 +15,8 @@ export default function Header() {
         <input
           type="text"
           placeholder="Search notes..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full pl-10 pr-3 py-1 md:py-2 bg-white border border-gray-300 rounded-md focus:shadow-[0px_0px_0px_4px_rgba(0,_0,_0,_0.2)] focus:outline-none focus:border-gray-500 text-gray-700 placeholder-gray-400 ease-in-out duration-200 text-sm md:text-base"
         />
       </div>
