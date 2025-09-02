@@ -29,7 +29,7 @@ export default function TodoList({ todos, onUpdate, onDelete }: Props) {
       {favorites.length > 0 && (
         <div>
           <h2 className="text-gray-900 mb-6">Favorites</h2>
-          <div className="flex  gap-3">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
             {favorites.map((todo) => (
               <TodoItem
                 key={todo.id}
@@ -44,8 +44,8 @@ export default function TodoList({ todos, onUpdate, onDelete }: Props) {
 
       {others.length > 0 && (
         <div>
-          <h2 className=" text-gray-900 mb-6">Others</h2>
-          <div className="flex  gap-3">
+          <h2 className="text-gray-900 mb-6">Others</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
             {others.map((todo) => (
               <TodoItem
                 key={todo.id}

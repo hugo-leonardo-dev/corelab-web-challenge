@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import api from "../services/api";
 import type { Todo } from "../types/todo";
 import { Star } from "lucide-react";
 import ColorPicker from "./ColorPicker";
@@ -24,13 +23,16 @@ export default function TodoForm({ onAdd }: Props) {
     defaultValues: {
       title: "",
       description: "",
-      color: "fffacd",
+      color: "#e6f3ff",
       isFavorite: false,
     },
   });
 
-  async function onSubmit(data: FormData) {
-    if (!data.title.trim()) return;
+  const onSubmit = async (data: FormData) => {
+    if (!data.title.trim()) {
+      alert("Title is required");
+      return;
+    }
 
     const formData = {
       ...data,
@@ -42,18 +44,18 @@ export default function TodoForm({ onAdd }: Props) {
     reset();
     setExpanded(false);
     setIsFavorite(false);
-  }
+  };
 
-  function handleCancel() {
+  const handleCancel = () => {
     reset();
     setExpanded(false);
     setIsFavorite(false);
-  }
+  };
 
-  function toggleFavorite() {
+  const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
     setValue("isFavorite", !isFavorite);
-  }
+  };
 
   return (
     <div className="w-full max-w-md mx-auto">
